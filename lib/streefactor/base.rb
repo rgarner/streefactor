@@ -15,6 +15,10 @@ module Streefactor
 
     def to_final = raise NotImplementedError
 
+    def self.|(other)
+      [self] + [other]
+    end
+
     protected
 
     def format(node, width = 120)
