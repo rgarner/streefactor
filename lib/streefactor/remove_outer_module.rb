@@ -1,18 +1,11 @@
 # frozen_string_literal: true
 
 require 'syntax_tree'
+require_relative 'base'
 
 module Streefactor
   # Remove the outer module from the first module encountered in a file, leaving everything else alone.
-  class RemoveOuterModule
-    include SyntaxTree::DSL
-
-    attr_reader :source
-
-    def initialize(source)
-      @source = source
-    end
-
+  class RemoveOuterModule < Base
     def to_final
       format(
         Program(
@@ -47,18 +40,6 @@ module Streefactor
         module_statements_body:,
         after:
       )
-    end
-
-    def format(node, width = 120)
-      SyntaxTree::Formatter.new(source, [], width).then do |q|
-        q.format(node)
-        q.flush
-        q.output.join
-      end
-    end
-
-    def program
-      @program ||= SyntaxTree.parse(@source)
     end
   end
 end
